@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\FakeDB\ProductDB;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -11,18 +11,18 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('products', ['products' => ProductDB::all()]);
+        return view('products', ['products' => Product::all()]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function store()
     {
-        $name = request('name');
-        $price = (float) request('price');
-
-        ProductDB::add($name, $price);
+        $product = new Product();
+        $product->name = request('name');
+        $product->price = (float) request('price');
+        $product->save();
 
         return redirect('/products');
     }
@@ -32,6 +32,6 @@ class ProductController extends Controller
      */
     public function show(int $id)
     {
-        return view('product', ['id' => $id, 'product' => ProductDB::find($id)]);
+        return view('product', ['id' => $id, 'product' => Product::find($id)]);
     }
 }

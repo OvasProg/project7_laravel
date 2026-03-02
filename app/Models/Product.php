@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
-class Product
+use Illuminate\Database\Eloquent\Model;
+
+class Product extends Model
 {
-  public function __construct(
-    public int $id,
-    public string $name,
-    public float $price,
-  ) {}
+  public function tags()
+  {
+    return $this->belongsToMany(Tag::class);
+  }
+
+  public function reviews()
+  {
+    return $this->hasMany(Review::class);
+  }
 }
